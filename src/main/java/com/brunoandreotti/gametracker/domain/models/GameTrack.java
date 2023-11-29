@@ -19,6 +19,9 @@ public class GameTrack {
     @Column
     Integer rate;
 
+    @Column
+    Double hoursPlayed;
+
     @ManyToOne
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;

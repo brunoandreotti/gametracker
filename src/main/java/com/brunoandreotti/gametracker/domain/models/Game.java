@@ -1,6 +1,7 @@
 package com.brunoandreotti.gametracker.domain.models;
 
 import jakarta.persistence.*;
+
 import lombok.Data;
 
 
@@ -18,9 +19,10 @@ public class Game {
     String name;
 
     @Column
-    Integer avarageRate = 0;
+    Integer averageRate = 0;
 
     @Column
     String imageUrl;
+
 
 }
