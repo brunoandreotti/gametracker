@@ -1,6 +1,6 @@
 package com.brunoandreotti.gametracker.exceptions;
 
-import lombok.Data;
+
 import lombok.Getter;
 
 @Getter
