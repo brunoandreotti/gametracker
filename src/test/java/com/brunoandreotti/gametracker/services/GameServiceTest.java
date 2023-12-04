@@ -17,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -82,5 +84,85 @@ public class GameServiceTest {
         Mockito.when(gameRepository.findByName(gameName)).thenReturn(Optional.empty());
 
         Assertions.assertThatThrownBy(() -> gameService.findByName(gameName)).isInstanceOf(GameException.class).hasMessage("Jogo com nome Jogo1 não existe");
+    }
+
+    @Test
+    public void findName_WithValidData_ReturnStringList() {
+
+        String gameName1 = "Jogo1";
+        String gameName2 = "Jogo2";
+
+        Game gameWithId1 = new Game(1L, gameName1, 5, "https");
+        Game gameWithId2 = new Game(2L, gameName2, 5, "https");
+
+        Mockito.when(gameRepository.findByNameStartingWithIgnoreCase(Mockito.anyString())).thenReturn(List.of(gameWithId1, gameWithId2));
+
+        List<String> result = gameService.findGamesName("j");
+
+        Assertions.assertThat(result).hasSize(2).contains(gameName1).contains(gameName2);
+
+
+    }
+
+    @Test
+    public void findName_WithNonExisting_ReturnEmptyList() {
+
+        Mockito.when(gameRepository.findByNameStartingWithIgnoreCase(Mockito.anyString())).thenReturn(new ArrayList<>());
+
+        List<String> result = gameService.findGamesName("j");
+
+        Assertions.assertThat(result).hasSize(0);
+
+
+    }
+
+    @Test
+    public void findAllName_WithValidData_ReturnStringList() {
+
+        String gameName1 = "Jogo1";
+        String gameName2 = "Jogo2";
+        String gameName3 = "Game3";
+
+        Game gameWithId1 = new Game(1L, gameName1, 5, "https");
+        Game gameWithId2 = new Game(2L, gameName2, 5, "https");
+        Game gameWithId3 = new Game(2L, gameName3, 5, "https");
+
+        Mockito.when(gameRepository.findAll()).thenReturn(List.of(gameWithId1, gameWithId2, gameWithId3));
+
+        List<String> result = gameService.findAllGamesName();
+
+        Assertions.assertThat(result).hasSize(3).contains(gameName1).contains(gameName2).contains(gameName3);
+
+
+    }
+
+    @Test
+    public void deleteNyName_WithValidData_ReturnVoid() {
+
+        String gameName = "Jogo1";
+
+
+        Game gameWithId = new Game(1L, gameName, 5, "https");
+
+
+        Mockito.when(gameRepository.findByName(gameName)).thenReturn(Optional.of(gameWithId));
+
+        gameService.deleteByName(gameName);
+
+        Mockito.verify(gameRepository, Mockito.times(1)).delete(gameWithId);
+
+
+    }
+
+    @Test
+    public void deleteNyName_WithNonExistingData_ReturnGameException() {
+
+        String gameName = "Jogo1";
+
+        Mockito.when(gameRepository.findByName(gameName)).thenReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> gameService.deleteByName(gameName)).isInstanceOf(GameException.class).hasMessage("Jogo com nome Jogo1 não existe");
+
+
     }
 }
