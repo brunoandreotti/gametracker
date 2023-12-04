@@ -76,7 +76,7 @@ public class GameController {
 
     @Operation(summary = "Realiza a deleção de um jogo pelo seu nome", method = "DELETE")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Nomes encontrado com sucesso"),
+            @ApiResponse(responseCode = "200", description = "Jogo deletado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Jogo com nome informado não encontrado")
     })
     @DeleteMapping("/{name}")
