@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ public class GameTrackController {
             @ApiResponse(responseCode = "400", description = "Jogo não encontrado")
     })
     @PostMapping()
-    public ResponseEntity<GameTrackResponseDTO> create(@RequestBody GameTrackRequestDTO gameTrackData) {
+    public ResponseEntity<GameTrackResponseDTO> create(@Valid @RequestBody GameTrackRequestDTO gameTrackData) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(gameTrackService.create(gameTrackData));
     }
@@ -82,7 +83,7 @@ public class GameTrackController {
             @ApiResponse(responseCode = "400", description = "Game track com id informado não encontrado")
     })
     @PutMapping ("/{id}")
-    public ResponseEntity<GameTrackResponseDTO> deleteByName(@PathVariable Long id, @RequestBody GameTrackRequestDTO gameTrackData) {
+    public ResponseEntity<GameTrackResponseDTO> deleteByName(@PathVariable Long id, @Valid @RequestBody GameTrackRequestDTO gameTrackData) {
 
         return ResponseEntity.status(HttpStatus.OK).body(gameTrackService.updateById(id, gameTrackData));
     }

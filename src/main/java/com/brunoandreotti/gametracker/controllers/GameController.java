@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jdk.jfr.Threshold;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class GameController {
             @ApiResponse(responseCode = "400", description = "Jogo já cadastrado")
     })
     @PostMapping()
-    public ResponseEntity<GameResponseDTO> create(@RequestBody GameRequestDTO gameData) {
+    public ResponseEntity<GameResponseDTO> create(@Valid @RequestBody GameRequestDTO gameData) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(gameService.create(gameData));
     }
