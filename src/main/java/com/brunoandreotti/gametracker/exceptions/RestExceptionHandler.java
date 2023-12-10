@@ -9,8 +9,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(GameException.class)
-    private ResponseEntity<ErrorDTO> handleGameException(GameException ex) {
+    @ExceptionHandler(value = { GameException.class, GameTrackException.class } )
+    private ResponseEntity<ErrorDTO> handleGameException(RuntimeException ex) {
 
         ErrorDTO errorResponse = new ErrorDTO(400, ex.getMessage());
 

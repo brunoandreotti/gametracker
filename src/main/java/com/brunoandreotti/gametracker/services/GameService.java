@@ -54,11 +54,21 @@ public class GameService {
         gameRepository.delete(verifyIfGameExistsByName(name));
     }
 
-    private Game verifyIfGameExistsByName(String name) {
+    public Game verifyIfGameExistsByName(String name) {
         Optional<Game> game = gameRepository.findByName(name);
 
         if (game.isEmpty()) {
             throw new GameException(String.format(ErrorStrings.NOT_EXISTING_ENTITY, "Jogo", "nome", name));
+        }
+
+        return game.get();
+    }
+
+    public Game verifyIfGameExistsById(Long id) {
+        Optional<Game> game = gameRepository.findById(id);
+
+        if (game.isEmpty()) {
+            throw new GameException(String.format(ErrorStrings.NOT_EXISTING_ENTITY, "Jogo", "id", id));
         }
 
         return game.get();

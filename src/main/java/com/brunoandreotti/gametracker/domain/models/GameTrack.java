@@ -1,12 +1,15 @@
 package com.brunoandreotti.gametracker.domain.models;
 
+import com.brunoandreotti.gametracker.dtos.gametrack.GameTrackRequestDTO;
 import com.brunoandreotti.gametracker.enums.GameStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_game_track")
 @Data
+@NoArgsConstructor
 public class GameTrack {
 
     @Id
@@ -25,4 +28,10 @@ public class GameTrack {
     @ManyToOne
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
+
+    public GameTrack(GameTrackRequestDTO gameTrack) {
+        this.hoursPlayed = gameTrack.getHoursPlayed();
+        this.rate = gameTrack.getRate();
+        this.status = gameTrack.getStatus();
+    }
 }
