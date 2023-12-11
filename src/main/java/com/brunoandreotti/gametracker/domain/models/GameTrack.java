@@ -20,7 +20,7 @@ public class GameTrack {
     GameStatus status = GameStatus.TO_PLAY;
 
     @Column
-    Integer rate;
+    Double rate;
 
     @Column
     Double hoursPlayed;

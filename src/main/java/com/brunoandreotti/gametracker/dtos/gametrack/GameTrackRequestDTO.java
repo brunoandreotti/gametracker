@@ -12,7 +12,7 @@ public class GameTrackRequestDTO {
 
     @Min(value = 1, message = "Rate é obrigatório e precisa ser um valor entre 1 e 5")
     @Max(value = 5, message = "Rate é obrigatório e precisa ser um valor entre 1 e 5")
-    Integer rate;
+    Double rate;
 
     @DecimalMin(value = "0.0", message = "Horas jogadas deve ser um decimal")
     Double hoursPlayed;

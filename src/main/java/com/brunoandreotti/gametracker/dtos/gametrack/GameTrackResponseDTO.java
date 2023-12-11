@@ -15,7 +15,7 @@ public class GameTrackResponseDTO {
 
     GameStatus status ;
 
-    Integer rate;
+    Double rate;
 
     Double hoursPlayed;
 
