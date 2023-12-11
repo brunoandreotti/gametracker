@@ -1,6 +1,7 @@
 package com.brunoandreotti.gametracker.controllers;
 
 
+import com.brunoandreotti.gametracker.dtos.ApiResponseDTO;
 import com.brunoandreotti.gametracker.dtos.game.GameRequestDTO;
 import com.brunoandreotti.gametracker.dtos.game.GameResponseDTO;
 import com.brunoandreotti.gametracker.services.GameService;
@@ -10,14 +11,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jdk.jfr.Threshold;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/games", produces = {"application/json"})
@@ -36,9 +34,10 @@ public class GameController {
             @ApiResponse(responseCode = "400", description = "Jogo já cadastrado")
     })
     @PostMapping()
-    public ResponseEntity<GameResponseDTO> create(@Valid @RequestBody GameRequestDTO gameData) {
+    public ResponseEntity<ApiResponseDTO<GameResponseDTO>> create(@Valid @RequestBody GameRequestDTO gameData) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(gameService.create(gameData));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.CREATED.value()), gameService.create(gameData)));
     }
 
     @Operation(summary = "Realiza a busca de um jogo pelo seu nome", method = "GET")
@@ -47,9 +46,10 @@ public class GameController {
             @ApiResponse(responseCode = "400", description = "Jogo com nome informado não encontrado")
     })
     @GetMapping("/{name}")
-    public ResponseEntity<GameResponseDTO> findByName(@PathVariable String name) {
+    public ResponseEntity<ApiResponseDTO<GameResponseDTO>> findByName(@PathVariable String name) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.findByName(name));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameService.findByName(name)));
+        
     }
 
     @Operation(summary = "Realiza a busca do nome de jogos cdastrados", method = "GET")
@@ -58,10 +58,11 @@ public class GameController {
 
     })
     @GetMapping("/names/{name}")
-    public ResponseEntity<List<String>> findGamesName(@PathVariable(required = false) String name) {
+    public ResponseEntity<ApiResponseDTO<List<String>>> findGamesName(@PathVariable(required = false) String name) {
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.findGamesName(name));
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameService.findGamesName(name)));
     }
 
     @Operation(summary = "Realiza a busca de todos os nomes dos jogos cadastrados", method = "GET")
@@ -70,9 +71,10 @@ public class GameController {
 
     })
     @GetMapping("/names")
-    public ResponseEntity<List<String>> findAllGamesName() {
+    public ResponseEntity<ApiResponseDTO<List<String>>> findAllGamesName() {
 
-        return ResponseEntity.status(HttpStatus.OK).body(gameService.findAllGamesName());
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameService.findAllGamesName()));
+
     }
 
     @Operation(summary = "Realiza a deleção de um jogo pelo seu nome", method = "DELETE")

@@ -1,6 +1,7 @@
 package com.brunoandreotti.gametracker.controllers;
 
 import com.brunoandreotti.gametracker.domain.models.GameTrack;
+import com.brunoandreotti.gametracker.dtos.ApiResponseDTO;
 import com.brunoandreotti.gametracker.dtos.game.GameRequestDTO;
 import com.brunoandreotti.gametracker.dtos.game.GameResponseDTO;
 import com.brunoandreotti.gametracker.dtos.gametrack.GameTrackRequestDTO;
@@ -35,9 +36,10 @@ public class GameTrackController {
             @ApiResponse(responseCode = "400", description = "Jogo não encontrado")
     })
     @PostMapping()
-    public ResponseEntity<GameTrackResponseDTO> create(@Valid @RequestBody GameTrackRequestDTO gameTrackData) {
+    public ResponseEntity<ApiResponseDTO<GameTrackResponseDTO>> create(@Valid @RequestBody GameTrackRequestDTO gameTrackData) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(gameTrackService.create(gameTrackData));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.CREATED.value()), gameTrackService.create(gameTrackData)));
     }
 
     @Operation(summary = "Retorna todos os game tracks", method = "GET")
@@ -46,9 +48,10 @@ public class GameTrackController {
 
     })
     @GetMapping()
-    public ResponseEntity<List<GameTrackResponseDTO>> findAll() {
+    public ResponseEntity<ApiResponseDTO<List<GameTrackResponseDTO>>> findAll() {
 
-        return ResponseEntity.status(HttpStatus.OK).body(gameTrackService.findAll());
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameTrackService.findAll()));
     }
 
     @Operation(summary = "Retorna game tracks baseado no nome do jogo", method = "GET")
@@ -59,9 +62,10 @@ public class GameTrackController {
     })
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<GameTrackResponseDTO>> findByGameName(@PathVariable String name) {
+    public ResponseEntity<ApiResponseDTO<List<GameTrackResponseDTO>>> findByGameName(@PathVariable String name) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(gameTrackService.findByGameName(name));
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameTrackService.findByGameName(name)));
     }
 
     @Operation(summary = "Realiza a deleção de um game track pelo seu id", method = "DELETE")
@@ -83,9 +87,10 @@ public class GameTrackController {
             @ApiResponse(responseCode = "400", description = "Game track com id informado não encontrado")
     })
     @PutMapping ("/{id}")
-    public ResponseEntity<GameTrackResponseDTO> deleteByName(@PathVariable Long id, @Valid @RequestBody GameTrackRequestDTO gameTrackData) {
+    public ResponseEntity<ApiResponseDTO<GameTrackResponseDTO>> updateByName(@PathVariable Long id, @Valid @RequestBody GameTrackRequestDTO gameTrackData) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(gameTrackService.updateById(id, gameTrackData));
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameTrackService.updateById(id, gameTrackData)));
     }
 
 
