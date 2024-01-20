@@ -1,5 +1,6 @@
 package com.brunoandreotti.gametracker.domain.models;
 
+import com.brunoandreotti.gametracker.domain.models.user.User;
 import com.brunoandreotti.gametracker.dtos.gametrack.GameTrackRequestDTO;
 import com.brunoandreotti.gametracker.enums.GameStatus;
 import jakarta.persistence.*;
@@ -28,6 +29,10 @@ public class GameTrack {
     @ManyToOne
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public GameTrack(GameTrackRequestDTO gameTrack) {
         this.hoursPlayed = gameTrack.getHoursPlayed();

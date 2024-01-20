@@ -4,12 +4,15 @@ package com.brunoandreotti.gametracker.services;
 import com.brunoandreotti.gametracker.domain.models.Game;
 import com.brunoandreotti.gametracker.domain.models.GameTrack;
 
+import com.brunoandreotti.gametracker.domain.models.user.User;
 import com.brunoandreotti.gametracker.domain.repositories.GameTrackRepository;
 import com.brunoandreotti.gametracker.dtos.gametrack.GameTrackRequestDTO;
 import com.brunoandreotti.gametracker.dtos.gametrack.GameTrackResponseDTO;
 import com.brunoandreotti.gametracker.exceptions.GameTrackException;
 import com.brunoandreotti.gametracker.utils.ErrorStrings;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +35,10 @@ public class GameTrackService {
 
         Game game = gameService.verifyIfGameExistsById(gameTrackData.getGameId());
 
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         gameTrack.setGame(game);
+        gameTrack.setUser(user);
 
         return new GameTrackResponseDTO(gameTrackRepository.save(gameTrack));
     }
@@ -48,6 +54,13 @@ public class GameTrackService {
 
         return gameTrackRepository.findGameTrackByGame(game).stream().map(GameTrackResponseDTO::new).toList();
     }
+
+   public List<GameTrackResponseDTO> findByAuthenticatedUser() {
+
+       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return gameTrackRepository.findByUser(user).stream().map(GameTrackResponseDTO::new).toList();
+   }
 
     public void deleteById(Long id) {
 

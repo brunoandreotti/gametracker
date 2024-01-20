@@ -2,6 +2,7 @@ package com.brunoandreotti.gametracker.dtos.gametrack;
 
 import com.brunoandreotti.gametracker.domain.models.Game;
 import com.brunoandreotti.gametracker.domain.models.GameTrack;
+import com.brunoandreotti.gametracker.domain.models.user.User;
 import com.brunoandreotti.gametracker.enums.GameStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,11 +22,14 @@ public class GameTrackResponseDTO {
 
     Game game;
 
+    Long userId;
+
      public GameTrackResponseDTO(GameTrack gameTrack) {
          this.id = gameTrack.getId();
          this.status = gameTrack.getStatus();
          this.rate = gameTrack.getRate();
          this.hoursPlayed = gameTrack.getHoursPlayed();
          this.game = gameTrack.getGame();
+         this.userId = gameTrack.getUser().getId();
      }
 }

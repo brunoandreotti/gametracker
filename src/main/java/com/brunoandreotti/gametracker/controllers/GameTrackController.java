@@ -60,12 +60,23 @@ public class GameTrackController {
             @ApiResponse(responseCode = "400", description = "Jogo não encontrado")
 
     })
-
     @GetMapping("/{name}")
     public ResponseEntity<ApiResponseDTO<List<GameTrackResponseDTO>>> findByGameName(@PathVariable String name) {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameTrackService.findByGameName(name)));
+    }
+
+    @Operation(summary = "Retorna game tracks baseado no nome do jogo", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Game track retornados com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Jogo não encontrado")
+
+    })
+    @GetMapping("/user")
+    public ResponseEntity<ApiResponseDTO<List<GameTrackResponseDTO>>> findByUser() {
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameTrackService.findByAuthenticatedUser()));
     }
 
     @Operation(summary = "Realiza a deleção de um game track pelo seu id", method = "DELETE")
