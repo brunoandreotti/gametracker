@@ -7,7 +7,9 @@ import lombok.Data;
 @Data
 public class ErrorDTO {
 
-
-
     String errorMessage;
+
+
+
+
 }

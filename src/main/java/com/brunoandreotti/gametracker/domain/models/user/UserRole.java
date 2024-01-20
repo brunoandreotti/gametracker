@@ -13,4 +13,14 @@ public enum UserRole {
     public String getRole() {
         return role;
     }
+
+    public static UserRole existsValue(String value) throws IllegalAccessException {
+
+        for (UserRole role : UserRole.values()) {
+             if (role.name().equalsIgnoreCase(value)) {
+                 return role;
+             }
+        }
+        throw new IllegalAccessException("Enum invalido");
+    }
 }
