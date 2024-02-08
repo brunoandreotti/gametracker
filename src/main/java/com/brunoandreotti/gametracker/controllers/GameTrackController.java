@@ -73,7 +73,7 @@ public class GameTrackController {
             @ApiResponse(responseCode = "400", description = "Jogo não encontrado")
 
     })
-    @GetMapping("/user")
+    @GetMapping("/user ")
     public ResponseEntity<ApiResponseDTO<List<GameTrackResponseDTO>>> findByUser() {
 
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDTO<>(true, Integer.toString(HttpStatus.OK.value()), gameTrackService.findByAuthenticatedUser()));
